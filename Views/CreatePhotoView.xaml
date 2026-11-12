@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PhotoOrganizer.Views.CreatePhotoView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="HomeView"
+    x:DataType="app:CreatePhotoViewModel"
+    BackgroundColor="{AppThemeBinding Light=#F6F7FB,
+                                      Dark=#121318}">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference HomeView}, x:DataType=ContentPage}"
+            Command="{Binding InitializaCommand}"
+            EventName="NavigatedTo" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <app:PageHeaderCard
+                Title="Capture a moment"
+                Margin="10"
+                Subtitle="Save a photo, add some details, and keep everything organized." />
+
+            <Border
+                Margin="10"
+                Padding="12"
+                StrokeThickness="1">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="14">
+
+                    <app:PhotoCaptureCard
+                        CaptureCommand="{Binding PhotoCapturedCommand}"
+                        IsPhotoTaken="{Binding IsPhotoTaken}"
+                        IsPhotoVisible="{Binding IsPhotoEmpty}"
+                        Location="{Binding Photo.LocationDescription}"
+                        PhotoPath="{Binding Photo.PhotoPath}" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Margin="10" Spacing="14">
+
+                <Label
+                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="21"
+                    Text="Photo details"
+                    TextColor="{AppThemeBinding Light=#20243A,
+                                                Dark=#F5F5FA}" />
+
+                <app:CardView>
+                    <inputLayout:SfTextInputLayout Hint="Category" Style="{StaticResource InputStyle}">
+
+                        <inputs:SfComboBox
+                            x:Name="TagsCombo"
+                            DisplayMemberPath="Name"
+                            HeightRequest="40"
+                            ItemsSource="{Binding Tags}"
+                            SelectionChanged="TagsCombo_SelectionChanged"
+                            TextColor="{AppThemeBinding Dark=#F0F1F8,
+                                                        Light=#20243A}">
+
+                            <inputs:SfComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="app:Tag">
+
+                                    <Grid
+                                        Padding="6,8"
+                                        ColumnDefinitions="Auto,*"
+                                        ColumnSpacing="10">
+
+                                        <BoxView
+                                            BackgroundColor="{Binding Color}"
+                                            HeightRequest="20"
+                                            WidthRequest="20" />
+
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="16"
+                                            Text="{Binding Name}"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+
+                                    </Grid>
+                                </DataTemplate>
+                            </inputs:SfComboBox.ItemTemplate>
+                        </inputs:SfComboBox>
+                    </inputLayout:SfTextInputLayout>
+                </app:CardView>
+
+                <app:CardView>
+                    <inputLayout:SfTextInputLayout Hint="Title" Style="{StaticResource InputStyle}">
+                        <Entry Style="{StaticResource PhotoDetailsEntryStyle}" Text="{Binding Photo.Title}" />
+                    </inputLayout:SfTextInputLayout>
+                </app:CardView>
+
+                <app:CardView>
+                    <inputLayout:SfTextInputLayout Hint="Description" Style="{StaticResource InputStyle}">
+                        <Entry Style="{StaticResource PhotoDetailsEntryStyle}" Text="{Binding Photo.Description}" />
+                    </inputLayout:SfTextInputLayout>
+                </app:CardView>
+            </VerticalStackLayout>
+
+            <Button
+                Margin="10"
+                Command="{Binding SavePictureCommand}"
+                Style="{StaticResource SaveDatabaseButton}" />
+
+            <Label
+                Padding="5"
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                Text="Your memories, beautifully organized."
+                TextColor="{AppThemeBinding Light=#969AAA,
+                                            Dark=#85899A}" />
+
+            <app:NewTagDialogView />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

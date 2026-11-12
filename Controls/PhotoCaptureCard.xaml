@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Class="PhotoOrganizer.Controls.PhotoCaptureCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    x:Name="PhotoCard">
+
+    <VerticalStackLayout Spacing="12">
+
+        <Border
+            Padding="0"
+            BackgroundColor="{AppThemeBinding Light=#F0F1F8,
+                                              Dark=#292C37}"
+            HeightRequest="280"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid>
+
+                <!--  Placeholder  -->
+
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsPhotoVisible, Source={x:Reference PhotoCard}}"
+                    Spacing="10"
+                    VerticalOptions="Center">
+
+                    <Label
+                        FontFamily="MaterialIconsRound"
+                        FontSize="80"
+                        HorizontalTextAlignment="Center"
+                        Opacity="0.7"
+                        Text="{x:Static app:IconFont.Group}" />
+
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        Opacity="0.7"
+                        Text="Tap to add a photo" />
+
+                </VerticalStackLayout>
+
+                <!--  Photo  -->
+
+                <Image
+                    Aspect="AspectFill"
+                    IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
+                    Source="{Binding PhotoPath, Source={x:Reference PhotoCard}}" />
+
+                <!--  Floating Camera Button  -->
+
+                <Border
+                    Margin="16"
+                    BackgroundColor="#515FD0"
+                    HeightRequest="48"
+                    HorizontalOptions="End"
+                    StrokeThickness="0"
+                    VerticalOptions="End"
+                    WidthRequest="48">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="24" />
+                    </Border.StrokeShape>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CaptureCommand, Source={x:Reference PhotoCard}}" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontFamily="MaterialIconsRound"
+                        FontSize="22"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static app:IconFont.Add_a_photo}"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+
+                </Border>
+
+            </Grid>
+
+        </Border>
+
+        <!--  Location Chip  -->
+
+        <Border
+            Padding="12,8"
+            BackgroundColor="{AppThemeBinding Light=#EEF0FF,
+                                              Dark=#30334B}"
+            IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="999" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+
+                <Label
+                    FontFamily="MaterialIconsRound"
+                    FontSize="18"
+                    Text="place"
+                    TextColor="{AppThemeBinding Light=#515FD0,
+                                                Dark=#B5BCFF}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    LineBreakMode="WordWrap"
+                    MaxLines="2"
+                    Text="{Binding Location, Source={x:Reference PhotoCard}}"
+                    TextColor="{AppThemeBinding Light=#30344A,
+                                                Dark=#F0F1F8}" />
+
+            </Grid>
+
+        </Border>
+
+    </VerticalStackLayout>
+
+</ContentView>
