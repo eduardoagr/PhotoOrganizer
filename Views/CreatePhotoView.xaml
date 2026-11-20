@@ -16,7 +16,7 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
             BindingContext="{Binding Path=BindingContext, Source={x:Reference HomeView}, x:DataType=ContentPage}"
-            Command="{Binding InitializaCommand}"
+            Command="{Binding InitializeCommand}"
             EventName="NavigatedTo" />
     </ContentPage.Behaviors>
 
@@ -40,12 +40,11 @@
                 <VerticalStackLayout Spacing="14">
 
                     <app:PhotoCaptureCard
-                        CaptureCommand="{Binding PhotoCapturedCommand}"
+                        CaptureCommand="{Binding TakePhotoCommand}"
+                        IsPhotoEmpty="{Binding IsPhotoEmpty}"
                         IsPhotoTaken="{Binding IsPhotoTaken}"
-                        IsPhotoVisible="{Binding IsPhotoEmpty}"
                         Location="{Binding Photo.LocationDescription}"
                         PhotoPath="{Binding Photo.PhotoPath}" />
-
                 </VerticalStackLayout>
             </Border>
 

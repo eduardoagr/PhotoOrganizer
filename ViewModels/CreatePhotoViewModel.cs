@@ -1,17 +1,11 @@
 namespace PhotoOrganizer.ViewModels;
 
 public partial class CreatePhotoViewModel(
-    IMediaService media,
-    IGeolocation geolocation,
-    IGeocoding geocoding,
-    IShellService shellService,
-    ISupabaseDataService supabaseDataService,
-    IUserService userService,
-    IBucketsService bucketsService,
-    NewTagDialogView views) : ObservableObject {
+    IMediaService media, IGeolocation geolocation, IGeocoding geocoding, IShellService shellService, ISupabaseDataService supabaseDataService,
+    IUserService userService, IBucketsService bucketsService, NewTagDialogView views) : ObservableObject {
 
     [ObservableProperty]
-    public Photo photo = new();
+    public partial Photo Photo { get; set; } = new();
 
     [ObservableProperty]
     public partial bool IsPhotoEmpty { get; set; } = true;
@@ -28,8 +22,7 @@ public partial class CreatePhotoViewModel(
     public ObservableCollection<Tag> Tags { get; } = [];
 
     [RelayCommand]
-    private async Task Initializa() {
-
+    private async Task Initialize() {
         var tagsDto = await supabaseDataService.UploadInitialTagsAsync(userService);
 
         var ordered = tagsDto
@@ -44,52 +37,74 @@ public partial class CreatePhotoViewModel(
         }
     }
 
+
+
     [RelayCommand]
-    public async Task PhotoCaptured(Stream stream) {
+    private async Task TakePhotoAsync() {
         try {
             var photo = await media.TakePhotoAsync(new PhotoCaptureOptions {
-                Instructions = "Remeber to smile",
+                Instructions = "Remember to smile!",
                 ShowConfirmation = false
             });
 
-            if(photo is not null) {
+            if(photo is null)
+                return;
 
-                var path = Path.Combine(FileSystem.CacheDirectory, $"{Guid.NewGuid()}.jpg");
-                await photo.SaveAsync(path);
-                Photo.PhotoPath = path;
+            var locationText = await GetPhotoLocationAsync();
 
+            var path = Path.Combine(
+                FileSystem.CacheDirectory,
+                $"{Guid.NewGuid()}.jpg");
 
-                string locationText = string.Empty;
+            await photo.SaveAsync(path);
 
-                var location = await geolocation.GetLocationAsync();
-                if(location != null) {
-                    var places = await geocoding.GetPlacemarksAsync(location);
-                    var place = places?.FirstOrDefault();
-                    if(place != null) {
-                        locationText =
-                            $"{place.Thoroughfare} {place.SubThoroughfare}, " +
-                            $"{place.PostalCode}, {place.Locality}, {place.CountryName}";
-                    }
-                }
+            Photo.PhotoPath = path;
+            Photo.LocationDescription = locationText;
 
-                IsPhotoEmpty = false;
-                IsPhotoTaken = true;
-                Photo.LocationDescription = locationText;
-            }
+            IsPhotoEmpty = false;
+            IsPhotoTaken = true;
+
         } catch(Exception ex) {
             await shellService.DisplayAlertAsync(
-                "Error", $"Failed to take photo: {ex.Message}", "OK");
+                "Error",
+                $"Failed to take photo: {ex.Message}",
+                "OK");
         }
     }
 
+
+
+    private async Task<string> GetPhotoLocationAsync() {
+
+        try {
+            var location = await geolocation.GetLocationAsync();
+
+            if(location is null)
+                return string.Empty;
+
+            var places = await geocoding.GetPlacemarksAsync(location);
+
+            var place = places?.FirstOrDefault();
+
+            if(place is null)
+                return string.Empty;
+
+            return $"{place.Thoroughfare} {place.SubThoroughfare}, " +
+                   $"{place.PostalCode}, {place.Locality}, {place.CountryName}";
+        } catch {
+            return string.Empty;
+        }
+    }
+
+
     [RelayCommand]
     private async Task SavePictureAsync() {
-
         if(string.IsNullOrWhiteSpace(Photo.PhotoPath) || SelectedTag == null) {
             await shellService.DisplayAlertAsync(
                 "Error",
                 "Please take a photo and select a tag before saving.",
                 "OK");
+
             return;
         }
 
@@ -99,8 +114,7 @@ public partial class CreatePhotoViewModel(
         var storagePath = await bucketsService.UploadFileAsync(
             Photo.PhotoPath,
             deviceId,
-            Photo.Title
-        );
+            Photo.Title);
 
         Photo.DeviceId = deviceId;
         Photo.FilePath = storagePath;

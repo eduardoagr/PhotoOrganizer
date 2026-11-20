@@ -1,7 +1,3 @@
-using CommunityToolkit.Mvvm.Messaging;
-
-using Syncfusion.Maui.Popup;
-
 namespace PhotoOrganizer.Views;
 
 public partial class NewTagDialogView : SfPopup {
@@ -18,9 +14,8 @@ public partial class NewTagDialogView : SfPopup {
 
         Messenger = messenger;
 
-    }
-
-    private void RootPopup_Closed(object sender, EventArgs e) {
-        Messenger?.Send("Close");
+        messenger.Register<string>(this, (sender, msg) => {
+            IsOpen = false;
+        });
     }
 }

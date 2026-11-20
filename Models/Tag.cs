@@ -4,10 +4,20 @@ public partial class Tag : ObservableObject {
 
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    [ObservableProperty]
+    public partial string Name { get; set; } = string.Empty;
 
-    public string Color { get; set; } = "#4285F4";
+    [ObservableProperty]
+    public partial string Color { get; set; } = "#4285F4";
 
     [ObservableProperty]
     public partial bool isSelected { get; set; }
+
+    public Color MauiColor {
+        get => Microsoft.Maui.Graphics.Color.FromArgb(Color);
+        set {
+            Color = value.ToArgbHex();
+            OnPropertyChanged();
+        }
+    }
 }

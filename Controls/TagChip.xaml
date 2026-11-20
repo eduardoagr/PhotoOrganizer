@@ -18,9 +18,11 @@
 
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
 
-            <BoxView
+            <Border
                 BackgroundColor="{Binding ChipColor, Source={x:Reference tagChip}}"
                 HeightRequest="20"
+                StrokeShape="RoundRectangle 15"
+                StrokeThickness="0"
                 WidthRequest="20" />
 
             <Label

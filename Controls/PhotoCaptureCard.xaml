@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <ContentView
     x:Class="PhotoOrganizer.Controls.PhotoCaptureCard"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -22,43 +21,45 @@
 
             <Grid>
 
-                <!--  Placeholder  -->
-
+                <!--  Photo Placeholder  -->
                 <VerticalStackLayout
                     HorizontalOptions="Center"
-                    IsVisible="{Binding IsPhotoVisible, Source={x:Reference PhotoCard}}"
+                    IsVisible="{Binding IsPhotoEmpty, Source={x:Reference PhotoCard}}"
                     Spacing="10"
                     VerticalOptions="Center">
+
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CaptureCommand, Source={x:Reference PhotoCard}}" />
+                    </VerticalStackLayout.GestureRecognizers>
 
                     <Label
                         FontFamily="MaterialIconsRound"
                         FontSize="80"
                         HorizontalTextAlignment="Center"
                         Opacity="0.7"
-                        Text="{x:Static app:IconFont.Group}" />
+                        Text="{x:Static app:IconFont.Add_a_photo}" />
 
                     <Label
                         FontSize="14"
                         HorizontalTextAlignment="Center"
                         Opacity="0.7"
-                        Text="Tap to add a photo" />
+                        Text="Tap to take a photo" />
 
                 </VerticalStackLayout>
 
-                <!--  Photo  -->
-
+                <!--  Captured Photo  -->
                 <Image
                     Aspect="AspectFill"
                     IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
                     Source="{Binding PhotoPath, Source={x:Reference PhotoCard}}" />
 
-                <!--  Floating Camera Button  -->
-
+                <!--  Retake Button  -->
                 <Border
                     Margin="16"
                     BackgroundColor="#515FD0"
                     HeightRequest="48"
                     HorizontalOptions="End"
+                    IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
                     StrokeThickness="0"
                     VerticalOptions="End"
                     WidthRequest="48">
@@ -82,11 +83,9 @@
                 </Border>
 
             </Grid>
-
         </Border>
 
         <!--  Location Chip  -->
-
         <Border
             Padding="12,8"
             BackgroundColor="{AppThemeBinding Light=#EEF0FF,
@@ -97,6 +96,7 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="999" />
             </Border.StrokeShape>
+
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
 
                 <Label
@@ -118,9 +118,7 @@
                                                 Dark=#F0F1F8}" />
 
             </Grid>
-
         </Border>
 
     </VerticalStackLayout>
-
 </ContentView>

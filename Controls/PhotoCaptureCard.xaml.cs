@@ -1,3 +1,4 @@
+
 using System.Windows.Input;
 
 namespace PhotoOrganizer.Controls;
@@ -11,23 +12,24 @@ public partial class PhotoCaptureCard : ContentView {
         BindableProperty.Create(
             nameof(PhotoPath),
             typeof(string),
-            typeof(PhotoCaptureCard));
+            typeof(PhotoCaptureCard),
+            default(string));
 
     public string? PhotoPath {
         get => (string?)GetValue(PhotoPathProperty);
         set => SetValue(PhotoPathProperty, value);
     }
 
-    public static readonly BindableProperty IsPhotoVisibleProperty =
+    public static readonly BindableProperty IsPhotoEmptyProperty =
         BindableProperty.Create(
-            nameof(IsPhotoVisible),
+            nameof(IsPhotoEmpty),
             typeof(bool),
             typeof(PhotoCaptureCard),
             true);
 
-    public bool IsPhotoVisible {
-        get => (bool)GetValue(IsPhotoVisibleProperty);
-        set => SetValue(IsPhotoVisibleProperty, value);
+    public bool IsPhotoEmpty {
+        get => (bool)GetValue(IsPhotoEmptyProperty);
+        set => SetValue(IsPhotoEmptyProperty, value);
     }
 
     public static readonly BindableProperty IsPhotoTakenProperty =

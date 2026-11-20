@@ -8,38 +8,58 @@
     xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
     x:Name="RootPopup"
-    Padding="5"
+    Padding="20"
     x:DataType="app:NewTagDialogViewModel"
     AnimationMode="Zoom"
     AutoSizeMode="Both"
-    Closed="RootPopup_Closed"
     ShowHeader="False"
     StaysOpen="True">
 
+    <sfPopup:SfPopup.PopupStyle>
+        <sfPopup:PopupStyle CornerRadius="0" />
+    </sfPopup:SfPopup.PopupStyle>
+
     <sfPopup:SfPopup.ContentTemplate>
         <DataTemplate x:DataType="app:NewTagDialogViewModel">
-            <VerticalStackLayout
+            <Grid
                 Padding="10"
-                HorizontalOptions="Center"
-                Spacing="2">
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="10">
 
-                <inputLayout:SfTextInputLayout
-                    ContainerType="Outlined"
-                    Hint="Name"
-                    WidthRequest="250">
+                <inputLayout:SfTextInputLayout ContainerType="Outlined" Hint="Name">
 
                     <Entry Text="{Binding newTag.Name}" TextColor="Black" />
 
                 </inputLayout:SfTextInputLayout>
 
                 <inputs:SfColorPicker
+                    Grid.Row="1"
                     ColorMode="Spectrum"
-                    HorizontalOptions="Center"
-                    IsActionButtonsVisible="True"
-                    IsInline="True"
-                    SelectedColor="{Binding newTag.Color}" />
+                    DisplayViewStroke="Black"
+                    HorizontalOptions="Start"
+                    IsActionButtonsVisible="False"
+                    SelectedColor="{Binding newTag.MauiColor}">
+                    <inputs:SfColorPicker.DropDownButtonTemplate>
+                        <DataTemplate>
 
-            </VerticalStackLayout>
+                            <Label
+                                FontFamily="MaterialIconsRound"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="{Static app:IconFont.Arrow_drop_down}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+
+                        </DataTemplate>
+                    </inputs:SfColorPicker.DropDownButtonTemplate>
+                </inputs:SfColorPicker>
+
+                <Button
+                    Grid.Row="2"
+                    Command="{Binding SaveTagCommand}"
+                    HorizontalOptions="End"
+                    Text="Save" />
+            </Grid>
         </DataTemplate>
     </sfPopup:SfPopup.ContentTemplate>
 
