@@ -1,6 +1,4 @@
-﻿using PhotoOrganizer.Models.Dtos;
-
-namespace PhotoOrganizer.Interfaces;
+﻿namespace PhotoOrganizer.Interfaces;
 
 public interface ISupabaseDataService {
 
@@ -13,8 +11,6 @@ public interface ISupabaseDataService {
     Task<PhotoDto?> GetPhotoByIdAsync(long id);
 
     Task<PhotoDto> InsertPhotoAsync(PhotoDto dto);
-
-    Task<IReadOnlyList<TagDto>> UploadInitialTagsAsync(IUserService userService);
 
     Task<IReadOnlyList<TagDto>> GetAllTagsAsync(Guid userId);
 }

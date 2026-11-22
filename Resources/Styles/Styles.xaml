@@ -2,7 +2,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -461,6 +462,15 @@
 
         <Setter Property="TextColor" Value="{AppThemeBinding Light=#292D43, Dark=#F4F4FA}" />
 
+    </Style>
+
+    <Style TargetType="sfPopup:SfPopup">
+        <Setter Property="AutoSizeMode" Value="Both" />
+        <Setter Property="PopupStyle">
+            <Setter.Value>
+                <sfPopup:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

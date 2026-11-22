@@ -1,0 +1,90 @@
+<sfPopup:SfPopup
+    x:Class="PhotoOrganizer.Views.UserAccountDialog"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    Padding="8"
+    x:DataType="app:CreatePhotoViewModel"
+    AutoSizeMode="Both"
+    ShowHeader="False">
+
+    <sfPopup:SfPopup.PopupStyle>
+        <sfPopup:PopupStyle CornerRadius="18" MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
+    </sfPopup:SfPopup.PopupStyle>
+
+    <sfPopup:SfPopup.ContentTemplate>
+        <DataTemplate>
+            <VerticalStackLayout
+                Padding="22"
+                Spacing="18"
+                WidthRequest="300">
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+
+                    <Border
+                        BackgroundColor="{AppThemeBinding Light=#EEF0FF,
+                                                          Dark=#393E59}"
+                        HeightRequest="58"
+                        StrokeShape="RoundRectangle 29"
+                        StrokeThickness="0"
+                        WidthRequest="58">
+
+                        <Label
+                            FontFamily="MaterialIconsRound"
+                            FontSize="34"
+                            HorizontalTextAlignment="Center"
+                            Text="{Static app:IconFont.Account_circle}"
+                            TextColor="{AppThemeBinding Light=#5965C5,
+                                                        Dark=#AAB2FF}"
+                            VerticalTextAlignment="Center" />
+                    </Border>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="5"
+                        VerticalOptions="Center">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding CurrentProfile.DisplayName}"
+                            TextColor="{AppThemeBinding Light=#20243A,
+                                                        Dark=#FFFFFF}" />
+
+                        <Label
+                            FontSize="13"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding CurrentProfile.Email}"
+                            TextColor="{AppThemeBinding Light=#85899A,
+                                                        Dark=#B0B4C5}" />
+
+                    </VerticalStackLayout>
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#EEEEF2, Dark=#41465D}" />
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+
+                    <Label
+                        FontFamily="MaterialIconsRound"
+                        FontSize="20"
+                        Text="{Static app:IconFont.Cloud_done}"
+                        TextColor="#35A76B"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="13"
+                        Text="Account connected"
+                        TextColor="{AppThemeBinding Light=#555B70,
+                                                    Dark=#D5D7E2}"
+                        VerticalOptions="Center" />
+
+                </Grid>
+
+            </VerticalStackLayout>
+        </DataTemplate>
+    </sfPopup:SfPopup.ContentTemplate>
+</sfPopup:SfPopup>

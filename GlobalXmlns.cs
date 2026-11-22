@@ -1,19 +1,10 @@
-﻿[assembly: XmlnsDefinition(
-    "http://schemas.photoorganizer.com",
-    "PhotoOrganizer.Views")]
+﻿[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.Views")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.ViewModels")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.Models")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.Icons")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.Controls")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "PhotoOrganizer.Services")]
 
-[assembly: XmlnsDefinition(
-    "http://schemas.photoorganizer.com",
-    "PhotoOrganizer.ViewModels")]
-
-[assembly: XmlnsDefinition(
-    "http://schemas.photoorganizer.com",
-    "PhotoOrganizer.Models")]
-
-[assembly: XmlnsDefinition(
-    "http://schemas.photoorganizer.com",
-    "PhotoOrganizer.Icons")]
-
-[assembly: XmlnsDefinition(
-    "http://schemas.photoorganizer.com",
-    "PhotoOrganizer.Controls")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "Syncfusion.Maui.Core", AssemblyName = "Syncfusion.Maui.Core")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "Syncfusion.Maui.Inputs", AssemblyName = "Syncfusion.Maui.Inputs")]
+[assembly: XmlnsDefinition("http://schemas.photoorganizer.com", "Syncfusion.Maui.Popup", AssemblyName = "Syncfusion.Maui.Popup")]

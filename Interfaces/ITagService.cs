@@ -1,8 +1,8 @@
-﻿namespace PhotoOrganizer.Interfaces; 
+﻿namespace PhotoOrganizer.Interfaces;
 
 public interface ITagService {
 
     Task<IEnumerable<Tag>> GetTagsAsync();
 
-    Task<Tag> CreateTagAsync(string name, string iconGlyph);
+    Task<Tag> CreateTagAsync(string name, string color);
 }

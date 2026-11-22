@@ -4,9 +4,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="http://schemas.photoorganizer.com"
-    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="HomeView"
     x:DataType="app:CreatePhotoViewModel"
@@ -20,7 +17,28 @@
             EventName="NavigatedTo" />
     </ContentPage.Behaviors>
 
-    <ScrollView>
+    <Shell.TitleView>
+        <Grid Padding="10" HorizontalOptions="End">
+            <Label
+                x:Name="AccountLabel"
+                FontFamily="MaterialIconsRound"
+                FontSize="32"
+                HorizontalTextAlignment="End"
+                Text="{Static app:IconFont.Menu}"
+                VerticalTextAlignment="Center">
+
+                <Label.Behaviors>
+                    <toolkit:TouchBehavior
+                        BindingContext="{Binding Source={x:Reference HomeView}, Path=BindingContext}"
+                        Command="{Binding ShowAccountDialogCommand}"
+                        PressedOpacity="0.5"
+                        PressedScale="1" />
+                </Label.Behaviors>
+            </Label>
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
         <VerticalStackLayout>
 
             <app:PageHeaderCard
@@ -45,6 +63,7 @@
                         IsPhotoTaken="{Binding IsPhotoTaken}"
                         Location="{Binding Photo.LocationDescription}"
                         PhotoPath="{Binding Photo.PhotoPath}" />
+
                 </VerticalStackLayout>
             </Border>
 
@@ -59,9 +78,9 @@
                                                 Dark=#F5F5FA}" />
 
                 <app:CardView>
-                    <inputLayout:SfTextInputLayout Hint="Category" Style="{StaticResource InputStyle}">
+                    <app:SfTextInputLayout Hint="Category" Style="{StaticResource InputStyle}">
 
-                        <inputs:SfComboBox
+                        <app:SfComboBox
                             x:Name="TagsCombo"
                             DisplayMemberPath="Name"
                             HeightRequest="40"
@@ -70,7 +89,7 @@
                             TextColor="{AppThemeBinding Dark=#F0F1F8,
                                                         Light=#20243A}">
 
-                            <inputs:SfComboBox.ItemTemplate>
+                            <app:SfComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="app:Tag">
 
                                     <Grid
@@ -78,10 +97,16 @@
                                         ColumnDefinitions="Auto,*"
                                         ColumnSpacing="10">
 
-                                        <BoxView
-                                            BackgroundColor="{Binding Color}"
+                                        <Border
                                             HeightRequest="20"
-                                            WidthRequest="20" />
+                                            Stroke="Black"
+                                            StrokeThickness="2"
+                                            WidthRequest="20">
+                                            <BoxView
+                                                BackgroundColor="{Binding Color}"
+                                                HeightRequest="20"
+                                                WidthRequest="20" />
+                                        </Border>
 
                                         <Label
                                             Grid.Column="1"
@@ -92,21 +117,21 @@
 
                                     </Grid>
                                 </DataTemplate>
-                            </inputs:SfComboBox.ItemTemplate>
-                        </inputs:SfComboBox>
-                    </inputLayout:SfTextInputLayout>
+                            </app:SfComboBox.ItemTemplate>
+                        </app:SfComboBox>
+                    </app:SfTextInputLayout>
                 </app:CardView>
 
                 <app:CardView>
-                    <inputLayout:SfTextInputLayout Hint="Title" Style="{StaticResource InputStyle}">
+                    <app:SfTextInputLayout Hint="Title" Style="{StaticResource InputStyle}">
                         <Entry Style="{StaticResource PhotoDetailsEntryStyle}" Text="{Binding Photo.Title}" />
-                    </inputLayout:SfTextInputLayout>
+                    </app:SfTextInputLayout>
                 </app:CardView>
 
                 <app:CardView>
-                    <inputLayout:SfTextInputLayout Hint="Description" Style="{StaticResource InputStyle}">
+                    <app:SfTextInputLayout Hint="Description" Style="{StaticResource InputStyle}">
                         <Entry Style="{StaticResource PhotoDetailsEntryStyle}" Text="{Binding Photo.Description}" />
-                    </inputLayout:SfTextInputLayout>
+                    </app:SfTextInputLayout>
                 </app:CardView>
             </VerticalStackLayout>
 
@@ -122,8 +147,8 @@
                 Text="Your memories, beautifully organized."
                 TextColor="{AppThemeBinding Light=#969AAA,
                                             Dark=#85899A}" />
-
-            <app:NewTagDialogView />
+            <app:LoginDialogView />
+            <app:UserAccountDialog RelativePosition="AlignBottom" RelativeView="{x:Reference AccountLabel}" />
         </VerticalStackLayout>
     </ScrollView>
 

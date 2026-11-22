@@ -1,8 +1,12 @@
 namespace PhotoOrganizer.ViewModels;
 
 public partial class CreatePhotoViewModel(
-    IMediaService media, IGeolocation geolocation, IGeocoding geocoding, IShellService shellService, ISupabaseDataService supabaseDataService,
-    IUserService userService, IBucketsService bucketsService, NewTagDialogView views) : ObservableObject {
+    IMediaService media, IGeolocation geolocation, IGeocoding geocoding, IShellService shellService,
+    IAuthService authService, IBucketsService bucketsService, IMessenger messenger, NewTagDialogView views) : ObservableObject {
+    private bool isInitialized;
+
+    [ObservableProperty]
+    public partial Profile? CurrentProfile { get; set; }
 
     [ObservableProperty]
     public partial Photo Photo { get; set; } = new();
@@ -19,22 +23,31 @@ public partial class CreatePhotoViewModel(
     [ObservableProperty]
     public partial bool IsCreatingNewTag { get; set; }
 
-    public ObservableCollection<Tag> Tags { get; } = [];
+    public ObservableCollection<Tag> Tags { get; set; } = [];
 
     [RelayCommand]
     private async Task Initialize() {
-        var tagsDto = await supabaseDataService.UploadInitialTagsAsync(userService);
 
-        var ordered = tagsDto
-            .Where(t => t.TagName != "All")
-            .OrderBy(t => t.TagName == "New tag" ? 1 : 0)
-            .ThenBy(t => t.TagName);
+        if(isInitialized)
+            return;
 
-        Tags.Clear();
+        UpdateTags(TagsSeed.InitialTags);
 
-        foreach(var dto in ordered) {
-            Tags.Add(dto.ToModel());
+        await authService.InitializeAsync();
+
+        isInitialized = true;
+
+        if(authService.IsAuthenticated) {
+            CurrentProfile = await authService.GetCurrentProfileAsync();
+            return;
         }
+
+        messenger.Send(MessengerKeys.LoginRequested);
+    }
+
+    [RelayCommand]
+    public void ShowAccountDialog() {
+        messenger.Send(MessengerKeys.ShowAccountDialog);
     }
 
 
@@ -97,40 +110,54 @@ public partial class CreatePhotoViewModel(
     }
 
 
-    [RelayCommand]
-    private async Task SavePictureAsync() {
-        if(string.IsNullOrWhiteSpace(Photo.PhotoPath) || SelectedTag == null) {
-            await shellService.DisplayAlertAsync(
-                "Error",
-                "Please take a photo and select a tag before saving.",
-                "OK");
+    //[RelayCommand]
+    //private async Task SavePictureAsync() {
+    //    if(string.IsNullOrWhiteSpace(Photo.PhotoPath) || SelectedTag == null) {
+    //        await shellService.DisplayAlertAsync(
+    //            "Error",
+    //            "Please take a photo and select a tag before saving.",
+    //            "OK");
 
-            return;
-        }
+    //        return;
+    //    }
 
-        var user = await userService.GetCurrentUserAsync();
-        var deviceId = user.DeviceId;
+    //    var user = await userService.GetCurrentUserAsync();
+    //    var deviceId = user.DeviceId;
 
-        var storagePath = await bucketsService.UploadFileAsync(
-            Photo.PhotoPath,
-            deviceId,
-            Photo.Title);
+    //    var storagePath = await bucketsService.UploadFileAsync(
+    //        Photo.PhotoPath,
+    //        deviceId,
+    //        Photo.Title);
 
-        Photo.DeviceId = deviceId;
-        Photo.FilePath = storagePath;
-        Photo.TagId = SelectedTag.Id;
+    //    Photo.DeviceId = deviceId;
+    //    Photo.FilePath = storagePath;
+    //    Photo.TagId = SelectedTag.Id;
 
-        var dto = Photo.ToDto();
-        dto.CreatedAt = DateTime.UtcNow;
+    //    var dto = Photo.ToDto();
+    //    dto.CreatedAt = DateTime.UtcNow;
 
-        await supabaseDataService.InsertPhotoAsync(dto);
+    //    await supabaseDataService.InsertPhotoAsync(dto);
 
-        await shellService.DisplayAlertAsync(
-            "Success",
-            "Photo note saved successfully.",
-            "OK");
+    //    await shellService.DisplayAlertAsync(
+    //        "Success",
+    //        "Photo note saved successfully.",
+    //        "OK");
 
-        ResetFields();
+    //    ResetFields();
+    //}
+
+    private void UpdateTags(IEnumerable<Tag> userTags) {
+
+        var tags = userTags
+            .OrderBy(tag => tag.Name)
+            .ToList();
+
+        tags.Add(new Tag { Name = "New tag", Color = "#3600FF", Id = 10 });
+
+        Tags.Clear();
+
+        foreach(var tag in tags)
+            Tags.Add(tag);
     }
 
     private void ResetFields() {

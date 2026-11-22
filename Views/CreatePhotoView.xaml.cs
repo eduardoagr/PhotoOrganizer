@@ -19,7 +19,7 @@ public partial class CreatePhotoView : ContentPage {
 
         vm.SelectedTag = tag;
 
-        if(tag.Name == "New tag") {
+        if(tag.Id == 10) {
             vm.CreateNewTag();
             return;
         }

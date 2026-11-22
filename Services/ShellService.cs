@@ -8,6 +8,10 @@ public class ShellService : IShellService {
         await Shell.Current.DisplayAlertAsync(title, message, cancel);
     }
 
+    public async Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel) {
+        return await Shell.Current.DisplayAlertAsync(title, message, accept, cancel);
+    }
+
     public async Task GoToAsync(ShellNavigationState pageName, bool amitation = true) {
         await Shell.Current.GoToAsync(pageName);
     }

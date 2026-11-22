@@ -1,0 +1,68 @@
+<sfPopup:SfPopup
+    x:Class="PhotoOrganizer.Views.LoginDialogView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    Padding="20"
+    x:DataType="app:LoginDialogViewModel"
+    AnimationMode="Fade"
+    AutoSizeMode="Both"
+    ShowHeader="False"
+    StaysOpen="True">
+
+    <sfPopup:SfPopup.PopupStyle>
+        <sfPopup:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
+    </sfPopup:SfPopup.PopupStyle>
+
+    <sfPopup:SfPopup.ContentTemplate>
+
+        <DataTemplate>
+
+            <Border Padding="20">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="☁️" />
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        HorizontalTextAlignment="Center"
+                        Text="Keep your memories with you"
+                        TextColor="{AppThemeBinding Light=#20243A,
+                                                    Dark=#F4F4FA}" />
+
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        Text="Sign in to securely back up your photos and access them from any device."
+                        TextColor="{AppThemeBinding Light=#6B7280,
+                                                    Dark=#CBD0E0}" />
+
+                    <Button
+                        BackgroundColor="#4285F4"
+                        Command="{Binding SignInCommand}"
+                        CommandParameter="{Static app:AuthProvider.Google}"
+                        CornerRadius="12"
+                        HeightRequest="50"
+                        Text="Continue with Google"
+                        TextColor="White" />
+
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </DataTemplate>
+
+    </sfPopup:SfPopup.ContentTemplate>
+
+</sfPopup:SfPopup>

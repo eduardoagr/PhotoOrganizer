@@ -22,19 +22,15 @@
             <Grid>
 
                 <!--  Photo Placeholder  -->
+
                 <VerticalStackLayout
                     HorizontalOptions="Center"
                     IsVisible="{Binding IsPhotoEmpty, Source={x:Reference PhotoCard}}"
-                    Spacing="10"
                     VerticalOptions="Center">
-
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CaptureCommand, Source={x:Reference PhotoCard}}" />
-                    </VerticalStackLayout.GestureRecognizers>
 
                     <Label
                         FontFamily="MaterialIconsRound"
-                        FontSize="80"
+                        FontSize="160"
                         HorizontalTextAlignment="Center"
                         Opacity="0.7"
                         Text="{x:Static app:IconFont.Add_a_photo}" />
@@ -52,50 +48,19 @@
                     Aspect="AspectFill"
                     IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
                     Source="{Binding PhotoPath, Source={x:Reference PhotoCard}}" />
-
-                <!--  Retake Button  -->
-                <Border
-                    Margin="16"
-                    BackgroundColor="#515FD0"
-                    HeightRequest="48"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
-                    StrokeThickness="0"
-                    VerticalOptions="End"
-                    WidthRequest="48">
-
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="24" />
-                    </Border.StrokeShape>
-
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CaptureCommand, Source={x:Reference PhotoCard}}" />
-                    </Border.GestureRecognizers>
-
-                    <Label
-                        FontFamily="MaterialIconsRound"
-                        FontSize="22"
-                        HorizontalTextAlignment="Center"
-                        Text="{x:Static app:IconFont.Add_a_photo}"
-                        TextColor="White"
-                        VerticalTextAlignment="Center" />
-
-                </Border>
-
             </Grid>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CaptureCommand, Source={x:Reference PhotoCard}}" />
+            </Border.GestureRecognizers>
+
         </Border>
 
         <!--  Location Chip  -->
         <Border
             Padding="12,8"
-            BackgroundColor="{AppThemeBinding Light=#EEF0FF,
-                                              Dark=#30334B}"
             IsVisible="{Binding IsPhotoTaken, Source={x:Reference PhotoCard}}"
             StrokeThickness="0">
-
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="999" />
-            </Border.StrokeShape>
 
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
 
@@ -116,7 +81,6 @@
                     Text="{Binding Location, Source={x:Reference PhotoCard}}"
                     TextColor="{AppThemeBinding Light=#30344A,
                                                 Dark=#F0F1F8}" />
-
             </Grid>
         </Border>
 

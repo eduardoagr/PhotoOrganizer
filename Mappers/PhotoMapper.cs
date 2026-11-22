@@ -1,6 +1,4 @@
-﻿using PhotoOrganizer.Models.Dtos;
-
-namespace PhotoOrganizer.Mappers;
+﻿namespace PhotoOrganizer.Mappers;
 
 public static class PhotoMapper {
 
@@ -11,8 +9,7 @@ public static class PhotoMapper {
             Description = photo.Description,
             LocationDescription = photo.LocationDescription,
             TagId = photo.TagId,
-            DeviceId = photo.DeviceId,
-            filePath = photo.FilePath
+            FilePath = photo.FilePath
         };
     }
 
@@ -23,9 +20,8 @@ public static class PhotoMapper {
             Title = dto.Title,
             Description = dto.Description,
             LocationDescription = dto.LocationDescription,
-            TagId = dto.TagId,
-            DeviceId = dto.DeviceId,
-            FilePath = dto.filePath
+            TagId = dto.Id,
+            FilePath = dto.FilePath
         };
     }
 }

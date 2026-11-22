@@ -4,6 +4,8 @@ namespace PhotoOrganizer.Interfaces;
 
 public interface IShellService {
 
+    Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel);
+
     Task DisplayAlertAsync(string title, string message, string cancel);
 
     Task ShowToastAsync(string toastMessage, ToastDuration duration, int fontsize);

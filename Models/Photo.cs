@@ -22,7 +22,5 @@ public partial class Photo : ObservableObject {
     [ObservableProperty]
     public partial string? CreatedAt { get; set; } = DateTime.UtcNow.ToString("D");
 
-    public string DeviceId { get; set; } = string.Empty;
-
     public string FilePath { get; set; } = string.Empty;
 }

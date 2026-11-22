@@ -6,7 +6,7 @@ public static class TagMaapper {
 
         return new Tag {
             Id = dto.Id,
-            Name = dto.TagName,
+            Name = dto.Name,
             Color = dto.Color
         };
     }
