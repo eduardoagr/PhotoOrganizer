@@ -2,7 +2,8 @@ namespace PhotoOrganizer.ViewModels;
 
 public partial class CreatePhotoViewModel(
     IMediaService media, IGeolocation geolocation, IGeocoding geocoding, IShellService shellService,
-    IAuthService authService, IBucketsService bucketsService, IMessenger messenger, NewTagDialogView views) : ObservableObject {
+    IAuthService authService, IBucketsService bucketsService, IMessenger messenger,
+    ITagService tagService, NewTagDialogView views) : ObservableObject {
     private bool isInitialized;
 
     [ObservableProperty]
@@ -31,17 +32,20 @@ public partial class CreatePhotoViewModel(
         if(isInitialized)
             return;
 
-        UpdateTags(TagsSeed.InitialTags);
-
         await authService.InitializeAsync();
 
         isInitialized = true;
 
         if(authService.IsAuthenticated) {
             CurrentProfile = await authService.GetCurrentProfileAsync();
+
+            var userTags = await tagService.GetTagsAsync();
+
+            UpdateTags(userTags);
             return;
         }
 
+        UpdateTags([]);
         messenger.Send(MessengerKeys.LoginRequested);
     }
 
@@ -148,7 +152,8 @@ public partial class CreatePhotoViewModel(
 
     private void UpdateTags(IEnumerable<Tag> userTags) {
 
-        var tags = userTags
+        var tags = TagsSeed.InitialTags
+            .Concat(userTags)
             .OrderBy(tag => tag.Name)
             .ToList();
 

@@ -83,7 +83,6 @@
                         <app:SfComboBox
                             x:Name="TagsCombo"
                             DisplayMemberPath="Name"
-                            HeightRequest="40"
                             ItemsSource="{Binding Tags}"
                             SelectionChanged="TagsCombo_SelectionChanged"
                             TextColor="{AppThemeBinding Dark=#F0F1F8,

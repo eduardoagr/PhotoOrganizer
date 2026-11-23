@@ -31,7 +31,7 @@
                         ChipColor="{Binding Color}"
                         Command="{Binding Path=BindingContext.FilterByTagCommand, Source={x:Reference galleryPage}}"
                         CommandParameter="{Binding}"
-                        IsSelected="{Binding isSelected}"
+                        IsSelected="{Binding IsSelected}"
                         Text="{Binding Name}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>

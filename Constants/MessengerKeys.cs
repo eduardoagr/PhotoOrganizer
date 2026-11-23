@@ -8,4 +8,6 @@ public static class MessengerKeys {
 
     public const string ShowAccountDialog = "ShowAccountDialog";
 
+    public const string CloseNewTagDialog = "CloseNewTagDialog";
+
 }

@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<sfPopup:SfPopup
+<app:SfPopup
     x:Class="PhotoOrganizer.Views.NewTagDialogView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="http://schemas.photoorganizer.com"
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-    xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
     x:Name="RootPopup"
     Padding="20"
     x:DataType="app:NewTagDialogViewModel"
     AnimationMode="Zoom"
     AutoSizeMode="Both"
+    ShowCloseButton="True"
     ShowHeader="False"
     StaysOpen="True">
 
-    <sfPopup:SfPopup.PopupStyle>
-        <sfPopup:PopupStyle CornerRadius="0" />
-    </sfPopup:SfPopup.PopupStyle>
+    <app:SfPopup.PopupStyle>
+        <app:PopupStyle CornerRadius="0" />
+    </app:SfPopup.PopupStyle>
 
-    <sfPopup:SfPopup.ContentTemplate>
+    <app:SfPopup.ContentTemplate>
         <DataTemplate x:DataType="app:NewTagDialogViewModel">
             <Grid
                 Padding="10"
                 RowDefinitions="Auto,Auto,Auto"
                 RowSpacing="10">
 
-                <inputLayout:SfTextInputLayout ContainerType="Outlined" Hint="Name">
+                <app:SfTextInputLayout
+                    Stroke="#393838"
+                    Hint="Name"
+                    Style="{StaticResource InputStyle}">
 
                     <Entry Text="{Binding newTag.Name}" TextColor="Black" />
 
-                </inputLayout:SfTextInputLayout>
+                </app:SfTextInputLayout>
 
-                <inputs:SfColorPicker
+                <app:SfColorPicker
                     Grid.Row="1"
+                    Margin="5,-20,0,0"
                     ColorMode="Spectrum"
                     DisplayViewStroke="Black"
                     HorizontalOptions="Start"
                     IsActionButtonsVisible="False"
                     SelectedColor="{Binding newTag.MauiColor}">
-                    <inputs:SfColorPicker.DropDownButtonTemplate>
+                    <app:SfColorPicker.DropDownButtonTemplate>
                         <DataTemplate>
 
                             <Label
@@ -51,16 +54,27 @@
                                 VerticalTextAlignment="Center" />
 
                         </DataTemplate>
-                    </inputs:SfColorPicker.DropDownButtonTemplate>
-                </inputs:SfColorPicker>
+                    </app:SfColorPicker.DropDownButtonTemplate>
+                </app:SfColorPicker>
 
-                <Button
+                <HorizontalStackLayout
                     Grid.Row="2"
-                    Command="{Binding SaveTagCommand}"
-                    HorizontalOptions="End"
-                    Text="Save" />
+                    HorizontalOptions="Center"
+                    Spacing="10">
+
+                    <Button
+                        Command="{Binding SaveTagCommand}"
+                        HorizontalOptions="End"
+                        Text="Save" />
+
+                    <Button
+                        Command="{Binding SaveTagCommand}"
+                        HorizontalOptions="End"
+                        Text="Cancel" />
+                </HorizontalStackLayout>
+
             </Grid>
         </DataTemplate>
-    </sfPopup:SfPopup.ContentTemplate>
+    </app:SfPopup.ContentTemplate>
 
-</sfPopup:SfPopup>
+</app:SfPopup>

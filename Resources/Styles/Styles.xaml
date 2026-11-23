@@ -449,6 +449,7 @@
     <Style x:Key="InputStyle" TargetType="inputLayout:SfTextInputLayout">
         <Setter Property="ContainerType" Value="Outlined" />
         <Setter Property="OutlineCornerRadius" Value="16" />
+        <Setter Property="Padding" Value="0,5,0,5" />
         <Setter Property="Stroke" Value="{AppThemeBinding Light=#73788C, Dark=#A7AABD}" />
         <Setter Property="HintLabelStyle">
             <inputLayout:LabelStyle FontSize="14" TextColor="{AppThemeBinding Light=#73788C, Dark=#A7AABD}" />
