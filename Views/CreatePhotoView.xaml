@@ -84,6 +84,7 @@
                             x:Name="TagsCombo"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding Tags}"
+                            SelectedItem="{Binding SelectedTag}"
                             SelectionChanged="TagsCombo_SelectionChanged"
                             TextColor="{AppThemeBinding Dark=#F0F1F8,
                                                         Light=#20243A}">

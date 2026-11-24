@@ -10,4 +10,6 @@ public static class MessengerKeys {
 
     public const string CloseNewTagDialog = "CloseNewTagDialog";
 
+    public const string TagCreated = "TagCreated";
+
 }

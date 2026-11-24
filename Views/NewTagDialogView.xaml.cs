@@ -16,4 +16,11 @@ public partial class NewTagDialogView : SfPopup {
                 IsOpen = false;
         });
     }
+
+    private void RootPopup_Closed(object sender, EventArgs e) {
+
+        if(BindingContext is NewTagDialogViewModel vm) {
+            vm.newTag = new Tag();
+        }
+    }
 }

@@ -1,4 +1,6 @@
-﻿using Supabase;
+﻿using Supabase.Postgrest;
+
+using Client = Supabase.Client;
 
 namespace PhotoOrganizer.Services;
 
@@ -20,7 +22,9 @@ public class TagService(Client client, IShellService shellService) : ITagService
 
         var response = await client
             .From<TagDto>()
-            .Insert(dto);
+            .Insert(dto, new QueryOptions {
+                Returning = QueryOptions.ReturnType.Representation
+            });
 
         var inserted = response.Models.First();
 

@@ -1,0 +1,25 @@
+<ContentView
+    x:Class="PhotoOrganizer.Controls.IconButton"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    x:Name="iconButton"
+    x:DataType="app:IconButton">
+
+    <Button
+        Command="{Binding Command, Source={x:Reference iconButton}}"
+        CommandParameter="{Binding CommandParameter, Source={x:Reference iconButton}}"
+        ContentLayout="Left, 10"
+        HorizontalOptions="End"
+        Text="{Binding Text, Source={x:Reference iconButton}}">
+
+        <Button.ImageSource>
+            <FontImageSource
+                FontFamily="MaterialIconsRound"
+                Glyph="{Binding Glyph, Source={x:Reference iconButton}}"
+                Size="20"
+                Color="{Binding IconColor, Source={x:Reference iconButton}}" />
+        </Button.ImageSource>
+
+    </Button>
+</ContentView>

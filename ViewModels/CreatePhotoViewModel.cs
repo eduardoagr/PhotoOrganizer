@@ -1,3 +1,7 @@
+using CommunityToolkit.Mvvm.Messaging.Messages;
+
+using Tag = PhotoOrganizer.Models.Tag;
+
 namespace PhotoOrganizer.ViewModels;
 
 public partial class CreatePhotoViewModel(
@@ -35,6 +39,26 @@ public partial class CreatePhotoViewModel(
         await authService.InitializeAsync();
 
         isInitialized = true;
+
+        if(!messenger.IsRegistered<ValueChangedMessage<Tag>>(this)) {
+            messenger.Register<CreatePhotoViewModel, ValueChangedMessage<Tag>>(
+                this,
+            async (recipient, message) => {
+
+                var userTags = await tagService.GetTagsAsync();
+
+                recipient.UpdateTags(userTags);
+
+                var selectedTag = recipient.Tags.FirstOrDefault(
+                    tag => tag.Id == message.Value.Id);
+
+                if(selectedTag is null)
+                    return;
+
+                recipient.SelectedTag = selectedTag;
+            });
+        }
+
 
         if(authService.IsAuthenticated) {
             CurrentProfile = await authService.GetCurrentProfileAsync();

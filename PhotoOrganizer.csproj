@@ -82,7 +82,7 @@
 		<PackageReference Include="PhotoBrowser.Maui" Version="1.2.4" />
 		<PackageReference Include="Shiny.Maui.Controls" Version="2.5.0" />
 		<PackageReference Include="Shiny.Maui.Controls.Camera" Version="2.5.0" />
-		<PackageReference Include="Supabase" Version="8.13.0" />
+		<PackageReference Include="Supabase" Version="8.14.0" />
 		<PackageReference Include="Syncfusion.Licensing" Version="35.2.12" />
 		<PackageReference Include="Syncfusion.Maui.Core" Version="35.2.12" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="35.2.12" />
@@ -100,6 +100,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Controls\CardView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\IconButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\PageHeaderCard.xaml">
