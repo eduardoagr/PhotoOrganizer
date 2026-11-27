@@ -3,26 +3,24 @@
     x:Class="PhotoOrganizer.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:icons="clr-namespace:PhotoOrganizer.Icons"
-    xmlns:views="clr-namespace:PhotoOrganizer.Views"
+    xmlns:app="http://schemas.photoorganizer.com"
     Title="PhotoOrganizer">
 
     <TabBar>
-
         <!--  CREATE TAB  -->
         <Tab Title="Create">
             <Tab.Icon>
-                <FontImageSource FontFamily="MaterialIconsRound" Glyph="{x:Static icons:IconFont.Add}" />
+                <FontImageSource FontFamily="MaterialIconsRound" Glyph="{x:Static app:IconFont.Add}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:CreatePhotoView}" />
+            <ShellContent ContentTemplate="{DataTemplate app:CreatePhotoView}" />
         </Tab>
 
         <!--  PHOTOS TAB  -->
         <Tab Title="Photos">
             <Tab.Icon>
-                <FontImageSource FontFamily="MaterialIconsRound" Glyph="{x:Static icons:IconFont.Photo_library}" />
+                <FontImageSource FontFamily="MaterialIconsRound" Glyph="{x:Static app:IconFont.Photo_library}" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:GalleryView}" />
+            <ShellContent ContentTemplate="{DataTemplate app:GalleryView}" />
         </Tab>
     </TabBar>
 

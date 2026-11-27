@@ -90,6 +90,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ComingSoonView.xaml.cs">
+	    <DependentUpon>ComingSoonView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CreatePhotoView.xaml.cs">
 	    <DependentUpon>CreatePhotoView.xaml</DependentUpon>
 	  </Compile>
@@ -112,6 +115,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\TagChip.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ComingSoonView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FilterPopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\GalleryView.xaml">

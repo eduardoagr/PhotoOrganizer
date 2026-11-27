@@ -10,33 +10,27 @@
     BackgroundColor="{AppThemeBinding Light=#F6F7FB,
                                       Dark=#121318}">
 
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior
-            BindingContext="{Binding Path=BindingContext, Source={x:Reference galleryPage}}"
-            Command="{Binding LoadTagsCommand}"
-            EventName="NavigatedTo" />
-    </ContentPage.Behaviors>
+    <Shell.TitleView>
+        <Grid>
+            <Label
+                HorizontalTextAlignment="End"
+                Style="{StaticResource ToolbarItem}"
+                Text="{Static app:IconFont.Filter_alt}"
+                VerticalTextAlignment="Center">
+
+                <Label.Behaviors>
+                    <toolkit:TouchBehavior
+                        BindingContext="{Binding Source={x:Reference galleryPage}, Path=BindingContext}"
+                        Command="{Binding FilterPopupOpenCommand}"
+                        PressedOpacity="0.5"
+                        PressedScale="1" />
+                </Label.Behaviors>
+            </Label>
+
+        </Grid>
+    </Shell.TitleView>
 
     <VerticalStackLayout Padding="10" Spacing="10">
-
-        <CollectionView ItemsSource="{Binding Tags}">
-
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="app:Tag">
-                    <app:TagChip
-                        ChipColor="{Binding Color}"
-                        Command="{Binding Path=BindingContext.FilterByTagCommand, Source={x:Reference galleryPage}}"
-                        CommandParameter="{Binding}"
-                        IsSelected="{Binding IsSelected}"
-                        Text="{Binding Name}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-
-        </CollectionView>
 
         <CollectionView ItemsSource="{Binding Photos}">
 

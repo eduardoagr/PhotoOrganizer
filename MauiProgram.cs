@@ -42,7 +42,8 @@ public static class MauiProgram {
         builder.Services.AddSingleton<IBucketsService, BucketsService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<ITagService, TagService>();
-        //builder.Services.AddSingleton<ISupabaseDataService, SupabaseDataService>();
+        builder.Services.AddSingleton<ITagStore, TagStore>();
+        builder.Services.AddSingleton<ISupabaseDataService, SupabaseDataService>();
 
 
         builder.Services.AddSingleton<CreatePhotoViewModel>();
@@ -53,6 +54,9 @@ public static class MauiProgram {
 
         builder.Services.AddTransient<NewTagDialogViewModel>();
         builder.Services.AddTransient<NewTagDialogView>();
+
+        builder.Services.AddTransient<FilterPopupView>();
+        builder.Services.AddTransient<FilterPopupViewModel>();
 
         builder.Services.AddTransient<LoginDialogViewModel>();
         builder.Services.AddTransient<LoginDialogView>();

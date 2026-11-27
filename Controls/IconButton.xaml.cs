@@ -34,16 +34,6 @@ public partial class IconButton : ContentView {
         set => SetValue(CommandParameterProperty, value);
     }
 
-
-    public static readonly BindableProperty IconColorProperty = BindableProperty.Create(
-        nameof(IconColor), typeof(Color), typeof(IconButton));
-
-    public Color IconColor {
-        get => (Color)GetValue(IconColorProperty);
-        set => SetValue(IconColorProperty, value);
-    }
-
-
     public static readonly BindableProperty GlyphProperty = BindableProperty.Create(
         nameof(Glyph), typeof(string), typeof(IconButton));
 

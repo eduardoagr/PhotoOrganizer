@@ -22,11 +22,11 @@ public partial class NewTagDialogViewModel(IMessenger messenger, ITagService tag
 
         messenger.Send(new ValueChangedMessage<Tag>(newTagCreated));
 
-        messenger.Send(MessengerKeys.CloseNewTagDialog);
+        messenger.Send(MessengerKeys.ClosePopup);
     }
 
     [RelayCommand]
     private async Task Cancel() {
-        messenger.Send(MessengerKeys.CloseNewTagDialog);
+        messenger.Send(MessengerKeys.ClosePopup);
     }
 }

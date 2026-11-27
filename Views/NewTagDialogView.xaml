@@ -7,15 +7,13 @@
     x:Name="RootPopup"
     Padding="20"
     x:DataType="app:NewTagDialogViewModel"
-    AnimationMode="Zoom"
     AutoSizeMode="Both"
-    ShowCloseButton="True"
-    ShowHeader="False"
     Closed="RootPopup_Closed"
+    ShowHeader="False"
     StaysOpen="True">
 
     <app:SfPopup.PopupStyle>
-        <app:PopupStyle CornerRadius="0" />
+        <app:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
     </app:SfPopup.PopupStyle>
 
     <app:SfPopup.ContentTemplate>
@@ -27,52 +25,35 @@
                     Stroke="#393838"
                     Style="{StaticResource InputStyle}">
 
-                    <Entry Text="{Binding newTag.Name}" TextColor="Black" />
+                    <Entry Text="{Binding newTag.Name}" />
 
                 </app:SfTextInputLayout>
 
                 <app:SfColorPicker
                     Grid.Row="1"
                     Margin="5,-20,0,0"
-                    ColorMode="Spectrum"
-                    DisplayViewStroke="Black"
+                    ColorMode="Palette"
                     HorizontalOptions="Start"
-                    IsActionButtonsVisible="False"
                     IsInline="True"
-                    SelectedColor="{Binding newTag.MauiColor}">
-                    <app:SfColorPicker.DropDownButtonTemplate>
-                        <DataTemplate>
+                    PopupBackground="Transparent"
+                    SelectedColor="{Binding newTag.MauiColor}"
+                    ShowRecentColors="False" />
 
-                            <Label
-                                FontFamily="MaterialIconsRound"
-                                FontSize="24"
-                                HorizontalTextAlignment="Center"
-                                Text="{Static app:IconFont.Arrow_drop_down}"
-                                TextColor="Black"
-                                VerticalTextAlignment="Center" />
-
-                        </DataTemplate>
-                    </app:SfColorPicker.DropDownButtonTemplate>
-                </app:SfColorPicker>
-
-                <HorizontalStackLayout
-                    Grid.Row="2"
-                    HorizontalOptions="Center"
-                    Spacing="15">
+                <Grid Grid.Row="2" Padding="10">
 
                     <app:IconButton
                         Command="{Binding SaveTagCommand}"
                         Glyph="{Static app:IconFont.Save}"
-                        IconColor="Black"
+                        HorizontalOptions="End"
                         Text="Save" />
 
                     <app:IconButton
                         Command="{Binding CancelCommand}"
                         Glyph="{Static app:IconFont.Cancel}"
-                        IconColor="Black"
+                        HorizontalOptions="Start"
                         Text="Cancel" />
 
-                </HorizontalStackLayout>
+                </Grid>
 
             </Grid>
         </DataTemplate>

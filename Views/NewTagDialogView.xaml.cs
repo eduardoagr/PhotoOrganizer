@@ -1,7 +1,6 @@
 namespace PhotoOrganizer.Views;
 
 public partial class NewTagDialogView : SfPopup {
-
     private readonly IMessenger Messenger;
 
     public NewTagDialogView(NewTagDialogViewModel newTagDialogViewModel, IMessenger messenger) {
@@ -12,7 +11,7 @@ public partial class NewTagDialogView : SfPopup {
         Messenger = messenger;
 
         messenger.Register<string>(this, (sender, msg) => {
-            if(msg == MessengerKeys.CloseNewTagDialog)
+            if(msg == MessengerKeys.ClosePopup)
                 IsOpen = false;
         });
     }
@@ -22,5 +21,17 @@ public partial class NewTagDialogView : SfPopup {
         if(BindingContext is NewTagDialogViewModel vm) {
             vm.newTag = new Tag();
         }
+    }
+
+    private void Button_Clicked(object sender, EventArgs e) {
+
+    }
+
+    private void CommingSoon_Clicked(object sender, EventArgs e) {
+
+    }
+
+    private void CommingSoonOkBton_Clicked(object sender, EventArgs e) {
+
     }
 }

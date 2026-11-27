@@ -2,7 +2,7 @@
 
 public interface IBucketsService {
 
-    Task<string> UploadFileAsync(string localFilePath, string deviceId, string title);
+    Task<string> UploadFileAsync(string localFilePath, string fileName);
 
 }
 

@@ -6,6 +6,11 @@ public partial class App : Application {
     }
 
     protected override Window CreateWindow(IActivationState? activationState) {
-        return new Window(new AppShell());
+
+        Page page = DeviceInfo.Idiom == DeviceIdiom.Desktop
+       ? new ComingSoonView()
+       : new AppShell();
+
+        return new Window(page);
     }
 }

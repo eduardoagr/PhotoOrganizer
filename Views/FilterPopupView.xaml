@@ -1,0 +1,68 @@
+<app:SfPopup
+    x:Class="PhotoOrganizer.Views.FilterPopupView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com"
+    x:Name="FilterPopup"
+    x:DataType="app:FilterPopupViewModel"
+    AutoSizeMode="Both">
+
+    <app:SfPopup.PopupStyle>
+        <app:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
+    </app:SfPopup.PopupStyle>
+
+    <app:SfPopup.ContentTemplate>
+        <DataTemplate x:DataType="app:FilterPopupViewModel">
+            <Grid Padding="15" RowDefinitions="Auto, Auto, *">
+                <app:SfTextInputLayout Hint="Tag" Style="{StaticResource InputStyle}">
+                    <app:SfComboBox
+                        DisplayMemberPath="Name"
+                        DropDownBackground="{AppThemeBinding Light=#FFFFFF,
+                                                             Dark=#292D43}"
+                        ItemsSource="{Binding Tags}"
+                        TextColor="{AppThemeBinding Dark=#F0F1F8,
+                                                    Light=#20243A}">
+
+                        <!--  Tag items  -->
+                        <app:SfComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="app:Tag">
+                                <HorizontalStackLayout
+                                    Padding="6,8"
+                                    Spacing="10"
+                                    VerticalOptions="Center">
+
+                                    <Border Style="{StaticResource TagColorBorderStyle}">
+
+                                        <BoxView BackgroundColor="{Binding Color}" />
+
+                                    </Border>
+
+                                    <Label
+                                        FontSize="16"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </app:SfComboBox.ItemTemplate>
+
+                    </app:SfComboBox>
+                </app:SfTextInputLayout>
+                <app:SfTextInputLayout
+                    Grid.Row="1"
+                    Hint="Select Date"
+                    Style="{StaticResource InputStyle}">
+                    <DatePicker />
+                </app:SfTextInputLayout>
+
+                <app:IconButton
+                    Grid.Row="2"
+                    Command="{Binding SaveTagCommand}"
+                    Glyph="{Static app:IconFont.Check}"
+                    HorizontalOptions="End"
+                    Text="Apply" />
+
+            </Grid>
+        </DataTemplate>
+    </app:SfPopup.ContentTemplate>
+</app:SfPopup>

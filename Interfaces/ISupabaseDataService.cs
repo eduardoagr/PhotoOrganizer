@@ -2,7 +2,9 @@
 
 public interface ISupabaseDataService {
 
-    Task<TagDto> InsertTagAsync(TagDto tagDto);
+    Task<PhotoDto> InsertPhotoAsync(PhotoDto photoDto);
 
-    Task<IReadOnlyList<TagDto>> GetAllTagsAsync(Guid userId);
+    Task<IEnumerable<PhotoDto>> GetPhotosAsync();
+
+    Task<IEnumerable<PhotoDto>> GetPhotosByTagAsync(long tagId);
 }

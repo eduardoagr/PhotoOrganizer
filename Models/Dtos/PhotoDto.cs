@@ -1,10 +1,10 @@
-﻿namespace PhotoOrganizer.Models;
+﻿namespace PhotoOrganizer.Models.Dtos;
 
 [Table("photos")]
 public class PhotoDto : BaseModel {
 
     [PrimaryKey("id", false)]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     [Column("user_id")]
     public Guid UserId { get; set; }

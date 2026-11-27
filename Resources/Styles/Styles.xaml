@@ -2,8 +2,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-    xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup">
+    xmlns:app="http://schemas.photoorganizer.com">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -446,13 +445,14 @@
         <Setter Property="Text" Value="Save" />
     </Style>
 
-    <Style x:Key="InputStyle" TargetType="inputLayout:SfTextInputLayout">
+    <Style x:Key="InputStyle" TargetType="app:SfTextInputLayout">
         <Setter Property="ContainerType" Value="Outlined" />
         <Setter Property="OutlineCornerRadius" Value="16" />
-        <Setter Property="Padding" Value="0,5,0,5" />
+        <Setter Property="HeightRequest" Value="80" />
+        <Setter Property="Padding" Value="0,5" />
         <Setter Property="Stroke" Value="{AppThemeBinding Light=#73788C, Dark=#A7AABD}" />
         <Setter Property="HintLabelStyle">
-            <inputLayout:LabelStyle FontSize="14" TextColor="{AppThemeBinding Light=#73788C, Dark=#A7AABD}" />
+            <app:LabelStyle FontSize="14" TextColor="{AppThemeBinding Light=#73788C, Dark=#A7AABD}" />
         </Setter>
     </Style>
 
@@ -465,13 +465,25 @@
 
     </Style>
 
-    <Style TargetType="sfPopup:SfPopup">
-        <Setter Property="AutoSizeMode" Value="Both" />
-        <Setter Property="PopupStyle">
-            <Setter.Value>
-                <sfPopup:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="TagColorBorderStyle" TargetType="Border">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HeightRequest" Value="20" />
+        <Setter Property="WidthRequest" Value="20" />
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+
+    <Style x:Key="FooterLabelStyle" TargetType="Label">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light=#969AAA, Dark=#85899A}" />
+    </Style>
+
+
+    <Style x:Key="ToolbarItem" TargetType="Label">
+        <Setter Property="FontFamily" Value="MaterialIconsRound" />
+        <Setter Property="FontSize" Value="32" />
     </Style>
 
 </ResourceDictionary>

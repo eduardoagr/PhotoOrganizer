@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="PhotoOrganizer.Views.ComingSoonView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="http://schemas.photoorganizer.com">
+
+    <Grid>
+        <app:SfPopup
+            x:Name="ComingSoonPopup"
+            AnimationMode="Zoom"
+            AutoSizeMode="Both"
+            IsOpen="True"
+            ShowHeader="False">
+
+            <app:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Padding="24" Spacing="16">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            HorizontalTextAlignment="Center"
+                            Text="PhotoOrganizer" />
+
+                        <Label
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="Windows is coming soon!" />
+
+                        <Label HorizontalTextAlignment="Center" Text="We're working on bringing PhotoOrganizer to desktop. Thank you for your patience." />
+
+                        <Button Clicked="CommingSoonOkBton_Clicked" Text="OK" />
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </app:SfPopup.ContentTemplate>
+
+        </app:SfPopup>
+    </Grid>
+</ContentPage>

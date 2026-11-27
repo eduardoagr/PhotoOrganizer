@@ -2,7 +2,7 @@
 
 public partial class Photo : ObservableObject {
 
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     [ObservableProperty]
     public partial string Title { get; set; } = string.Empty;
@@ -17,10 +17,10 @@ public partial class Photo : ObservableObject {
     public partial string? PhotoPath { get; set; } = null;
 
     [ObservableProperty]
-    public partial int TagId { get; set; }
+    public partial long? TagId { get; set; }
 
     [ObservableProperty]
-    public partial string? CreatedAt { get; set; } = DateTime.UtcNow.ToString("D");
+    public partial DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string FilePath { get; set; } = string.Empty;
 }

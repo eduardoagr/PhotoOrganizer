@@ -7,7 +7,7 @@ namespace PhotoOrganizer.ViewModels;
 public partial class CreatePhotoViewModel(
     IMediaService media, IGeolocation geolocation, IGeocoding geocoding, IShellService shellService,
     IAuthService authService, IBucketsService bucketsService, IMessenger messenger,
-    ITagService tagService, NewTagDialogView views) : ObservableObject {
+    ITagService tagService, ITagStore tagStore, ISupabaseDataService supabaseDataService, NewTagDialogView views) : ObservableObject {
     private bool isInitialized;
 
     [ObservableProperty]
@@ -23,12 +23,15 @@ public partial class CreatePhotoViewModel(
     public partial bool IsPhotoTaken { get; set; } = false;
 
     [ObservableProperty]
-    public partial Tag SelectedTag { get; set; }
+    public partial Tag? SelectedTag { get; set; }
 
     [ObservableProperty]
     public partial bool IsCreatingNewTag { get; set; }
 
-    public ObservableCollection<Tag> Tags { get; set; } = [];
+    [ObservableProperty]
+    public partial bool IsDropDownOpen { get; set; }
+
+    public ObservableCollection<Tag> Tags => tagStore.Tags;
 
     [RelayCommand]
     private async Task Initialize() {
@@ -38,34 +41,13 @@ public partial class CreatePhotoViewModel(
 
         await authService.InitializeAsync();
 
+        RegisterMessages();
+
         isInitialized = true;
-
-        if(!messenger.IsRegistered<ValueChangedMessage<Tag>>(this)) {
-            messenger.Register<CreatePhotoViewModel, ValueChangedMessage<Tag>>(
-                this,
-            async (recipient, message) => {
-
-                var userTags = await tagService.GetTagsAsync();
-
-                recipient.UpdateTags(userTags);
-
-                var selectedTag = recipient.Tags.FirstOrDefault(
-                    tag => tag.Id == message.Value.Id);
-
-                if(selectedTag is null)
-                    return;
-
-                recipient.SelectedTag = selectedTag;
-            });
-        }
-
 
         if(authService.IsAuthenticated) {
             CurrentProfile = await authService.GetCurrentProfileAsync();
-
-            var userTags = await tagService.GetTagsAsync();
-
-            UpdateTags(userTags);
+            await LoadTagsAsync();
             return;
         }
 
@@ -113,6 +95,50 @@ public partial class CreatePhotoViewModel(
         }
     }
 
+    [RelayCommand]
+    public void CreateNewTag() {
+        IsDropDownOpen = false;
+        views.IsOpen = true;
+    }
+
+    [RelayCommand]
+    private async Task SavePictureAsync() {
+        if(string.IsNullOrWhiteSpace(Photo.PhotoPath) || SelectedTag == null) {
+            await shellService.DisplayAlertAsync(
+                "Error",
+                "Please take a photo and select a tag before saving.",
+                "OK");
+
+            return;
+        }
+
+        var fileName = Guid.NewGuid().ToString();
+
+        Photo.FilePath = await bucketsService.UploadFileAsync(
+            Photo.PhotoPath,
+            fileName);
+
+        var photoDto = new PhotoDto {
+            UserId = CurrentProfile!.Id,
+            TagId = SelectedTag.Id,
+            Title = Photo.Title,
+            Description = Photo.Description,
+            LocationDescription = Photo.LocationDescription,
+            FilePath = Photo.FilePath,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await supabaseDataService.InsertPhotoAsync(photoDto);
+
+        await shellService.DisplayAlertAsync(
+            "Success",
+            "Photo saved successfully!",
+            "OK");
+
+        ResetFields();
+
+    }
+
 
 
     private async Task<string> GetPhotoLocationAsync() {
@@ -138,41 +164,7 @@ public partial class CreatePhotoViewModel(
     }
 
 
-    //[RelayCommand]
-    //private async Task SavePictureAsync() {
-    //    if(string.IsNullOrWhiteSpace(Photo.PhotoPath) || SelectedTag == null) {
-    //        await shellService.DisplayAlertAsync(
-    //            "Error",
-    //            "Please take a photo and select a tag before saving.",
-    //            "OK");
 
-    //        return;
-    //    }
-
-    //    var user = await userService.GetCurrentUserAsync();
-    //    var deviceId = user.DeviceId;
-
-    //    var storagePath = await bucketsService.UploadFileAsync(
-    //        Photo.PhotoPath,
-    //        deviceId,
-    //        Photo.Title);
-
-    //    Photo.DeviceId = deviceId;
-    //    Photo.FilePath = storagePath;
-    //    Photo.TagId = SelectedTag.Id;
-
-    //    var dto = Photo.ToDto();
-    //    dto.CreatedAt = DateTime.UtcNow;
-
-    //    await supabaseDataService.InsertPhotoAsync(dto);
-
-    //    await shellService.DisplayAlertAsync(
-    //        "Success",
-    //        "Photo note saved successfully.",
-    //        "OK");
-
-    //    ResetFields();
-    //}
 
     private void UpdateTags(IEnumerable<Tag> userTags) {
 
@@ -180,8 +172,6 @@ public partial class CreatePhotoViewModel(
             .Concat(userTags)
             .OrderBy(tag => tag.Name)
             .ToList();
-
-        tags.Add(new Tag { Name = "New tag", Color = "#3600FF", Id = 10 });
 
         Tags.Clear();
 
@@ -195,7 +185,35 @@ public partial class CreatePhotoViewModel(
         SelectedTag = null;
     }
 
-    public void CreateNewTag() {
-        views.IsOpen = true;
+
+    private void RegisterMessages() {
+
+        if(!messenger.IsRegistered<ValueChangedMessage<Tag>>(this)) {
+            messenger.Register<CreatePhotoViewModel, ValueChangedMessage<Tag>>(
+                this,
+                async (recipient, message) => {
+
+                    await recipient.LoadTagsAsync();
+
+                    recipient.SelectedTag = recipient.Tags.FirstOrDefault(
+                        tag => tag.Id == message.Value.Id);
+                });
+        }
+
+        if(!messenger.IsRegistered<ValueChangedMessage<Profile>>(this)) {
+            messenger.Register<CreatePhotoViewModel, ValueChangedMessage<Profile>>(
+                this,
+                async (recipient, message) => {
+
+                    recipient.CurrentProfile = message.Value;
+
+                    await recipient.LoadTagsAsync();
+                });
+        }
+    }
+
+    private async Task LoadTagsAsync() {
+        var userTags = await tagService.GetTagsAsync();
+        UpdateTags(userTags);
     }
 }

@@ -11,14 +11,15 @@
         CommandParameter="{Binding CommandParameter, Source={x:Reference iconButton}}"
         ContentLayout="Left, 10"
         HorizontalOptions="End"
-        Text="{Binding Text, Source={x:Reference iconButton}}">
+        Text="{Binding Text, Source={x:Reference iconButton}}"
+        TextColor="Black">
 
         <Button.ImageSource>
             <FontImageSource
                 FontFamily="MaterialIconsRound"
                 Glyph="{Binding Glyph, Source={x:Reference iconButton}}"
                 Size="20"
-                Color="{Binding IconColor, Source={x:Reference iconButton}}" />
+                Color="{AppThemeBinding Light=#FFFFFF,Dark=#292D43}" />
         </Button.ImageSource>
 
     </Button>

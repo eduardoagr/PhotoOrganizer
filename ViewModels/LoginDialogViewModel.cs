@@ -1,4 +1,6 @@
-﻿namespace PhotoOrganizer.ViewModels;
+﻿using CommunityToolkit.Mvvm.Messaging.Messages;
+
+namespace PhotoOrganizer.ViewModels;
 
 public partial class LoginDialogViewModel(IAuthService authService, IShellService shellService, IMessenger messenger) : ObservableObject {
 
@@ -7,7 +9,12 @@ public partial class LoginDialogViewModel(IAuthService authService, IShellServic
         try {
             var profile = await authService.SignInWithProviderAsync(provider);
 
-            messenger.Send(MessengerKeys.LoginSucceeded);
+            if(profile is not null) {
+
+                messenger.Send(new ValueChangedMessage<Profile>(profile));
+                messenger.Send(MessengerKeys.LoginSucceeded);
+            }
+
 
         } catch(TaskCanceledException) {
 

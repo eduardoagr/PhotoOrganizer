@@ -8,7 +8,7 @@ public static class MessengerKeys {
 
     public const string ShowAccountDialog = "ShowAccountDialog";
 
-    public const string CloseNewTagDialog = "CloseNewTagDialog";
+    public const string ClosePopup = "ClosePopup";
 
     public const string TagCreated = "TagCreated";
 

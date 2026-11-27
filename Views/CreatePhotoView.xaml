@@ -21,9 +21,8 @@
         <Grid Padding="10" HorizontalOptions="End">
             <Label
                 x:Name="AccountLabel"
-                FontFamily="MaterialIconsRound"
-                FontSize="32"
                 HorizontalTextAlignment="End"
+                Style="{StaticResource ToolbarItem}"
                 Text="{Static app:IconFont.Menu}"
                 VerticalTextAlignment="Center">
 
@@ -83,41 +82,52 @@
                         <app:SfComboBox
                             x:Name="TagsCombo"
                             DisplayMemberPath="Name"
+                            DropDownBackground="{AppThemeBinding Light=#FFFFFF,
+                                                                 Dark=#292D43}"
+                            DropdownHeaderViewHeight="50"
+                            IsDropDownOpen="{Binding IsDropDownOpen}"
                             ItemsSource="{Binding Tags}"
                             SelectedItem="{Binding SelectedTag}"
-                            SelectionChanged="TagsCombo_SelectionChanged"
+                            ShowDropdownHeaderView="True"
                             TextColor="{AppThemeBinding Dark=#F0F1F8,
                                                         Light=#20243A}">
 
+                            <!--  Create new tag  -->
+                            <app:SfComboBox.DropdownHeaderView>
+                                <VerticalStackLayout BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}">
+                                    <app:IconButton
+                                        Margin="5"
+                                        Command="{Binding BindingContext.CreateNewTagCommand, Source={x:Reference HomeView}}"
+                                        Glyph="{Static app:IconFont.Add}"
+                                        HorizontalOptions="Start"
+                                        Text="New Tag"
+                                        VerticalOptions="Start" />
+                                </VerticalStackLayout>
+                            </app:SfComboBox.DropdownHeaderView>
+
+                            <!--  Tag items  -->
                             <app:SfComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="app:Tag">
-
-                                    <Grid
+                                    <HorizontalStackLayout
                                         Padding="6,8"
-                                        ColumnDefinitions="Auto,*"
-                                        ColumnSpacing="10">
+                                        Spacing="10"
+                                        VerticalOptions="Center">
 
-                                        <Border
-                                            HeightRequest="20"
-                                            Stroke="Black"
-                                            StrokeThickness="2"
-                                            WidthRequest="20">
-                                            <BoxView
-                                                BackgroundColor="{Binding Color}"
-                                                HeightRequest="20"
-                                                WidthRequest="20" />
+                                        <Border Style="{StaticResource TagColorBorderStyle}">
+
+                                            <BoxView BackgroundColor="{Binding Color}" />
+
                                         </Border>
 
                                         <Label
-                                            Grid.Column="1"
                                             FontSize="16"
                                             Text="{Binding Name}"
-                                            TextColor="Black"
                                             VerticalOptions="Center" />
 
-                                    </Grid>
+                                    </HorizontalStackLayout>
                                 </DataTemplate>
                             </app:SfComboBox.ItemTemplate>
+
                         </app:SfComboBox>
                     </app:SfTextInputLayout>
                 </app:CardView>
@@ -140,13 +150,8 @@
                 Command="{Binding SavePictureCommand}"
                 Style="{StaticResource SaveDatabaseButton}" />
 
-            <Label
-                Padding="5"
-                FontSize="14"
-                HorizontalTextAlignment="Center"
-                Text="Your memories, beautifully organized."
-                TextColor="{AppThemeBinding Light=#969AAA,
-                                            Dark=#85899A}" />
+            <Label Style="{StaticResource FooterLabelStyle}" Text="Your memories, beautifully organized." />
+
             <app:LoginDialogView />
             <app:UserAccountDialog RelativePosition="AlignBottom" RelativeView="{x:Reference AccountLabel}" />
         </VerticalStackLayout>

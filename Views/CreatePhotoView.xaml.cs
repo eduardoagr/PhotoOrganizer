@@ -7,21 +7,4 @@ public partial class CreatePhotoView : ContentPage {
         InitializeComponent();
         BindingContext = vm;
     }
-
-    private void TagsCombo_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e) {
-
-        if(BindingContext is not CreatePhotoViewModel vm)
-            return;
-
-        if(e.AddedItems?.FirstOrDefault() is not Tag tag) {
-            return;
-        }
-
-        vm.SelectedTag = tag;
-
-        if(tag.Id == 10) {
-            vm.CreateNewTag();
-            return;
-        }
-    }
 }

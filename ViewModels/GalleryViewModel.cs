@@ -5,35 +5,15 @@ namespace PhotoOrganizer.ViewModels;
 public partial class GalleryViewModel(
     ISupabaseDataService dataService,
     IShare share,
-    ICreateExcel notesExcel) : ObservableObject {
-
-    public ObservableCollection<Tag> Tags { get; } = [];
+    ICreateExcel notesExcel,
+    FilterPopupView views) : ObservableObject {
 
     public ObservableCollection<Photo> Photos { get; } = [];
 
-    public bool IsLoaded { get; private set; }
-
-    //    [RelayCommand]
-    //    private async Task LoadTagsAsync() {
-
-    //        var user = await userService.GetCurrentUserAsync();
-
-    //        var tags = await dataService.GetAllTagsAsync(user.Id);
-
-    //        var orderedTags = tags
-    //            .Where(t => t.TagName != "New tag")
-    //            .OrderBy(t => t.TagName == "All" ? 0 : 1)
-    //            .ThenBy(t => t.TagName);
-
-    //        foreach(var dto in orderedTags) {
-    //            if(Tags.Any(t => t.Id == dto.Id))
-    //                continue;
-
-    //            Tags.Add(dto.ToModel());
-    //        }
-
-    //        SortTags();
-    //    }
+    [RelayCommand]
+    void FilterPopupOpen() {
+        views.IsOpen = true;
+    }
 
     //    [RelayCommand]
     //    private async Task FilterByTagAsync(Tag tag) {
