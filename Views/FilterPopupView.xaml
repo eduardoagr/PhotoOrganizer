@@ -5,11 +5,7 @@
     xmlns:app="http://schemas.photoorganizer.com"
     x:Name="FilterPopup"
     x:DataType="app:FilterPopupViewModel"
-    AutoSizeMode="Both">
-
-    <app:SfPopup.PopupStyle>
-        <app:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
-    </app:SfPopup.PopupStyle>
+    Style="{StaticResource KeyedPopupStyle}">
 
     <app:SfPopup.ContentTemplate>
         <DataTemplate x:DataType="app:FilterPopupViewModel">
@@ -57,10 +53,18 @@
 
                 <app:IconButton
                     Grid.Row="2"
-                    Command="{Binding SaveTagCommand}"
+                    Command="{Binding ApplyBtonCommand}"
                     Glyph="{Static app:IconFont.Check}"
                     HorizontalOptions="End"
                     Text="Apply" />
+
+                <app:IconButton
+                    Grid.Row="2"
+                    Command="{Binding CancelBtonCommand}"
+                    Glyph="{Static app:IconFont.Close}"
+                    HorizontalOptions="Start"
+                    Text="Cancel" />
+
 
             </Grid>
         </DataTemplate>

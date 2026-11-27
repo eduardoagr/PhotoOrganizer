@@ -465,6 +465,21 @@
 
     </Style>
 
+    <Style x:Key="KeyedPopupStyle" TargetType="app:SfPopup">
+
+        <Setter Property="AutoSizeMode" Value="Both" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="ShowHeader" Value="False" />
+        <Setter Property="StaysOpen" Value="True" />
+
+        <Setter Property="PopupStyle">
+            <Setter.Value>
+                <app:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <Style x:Key="TagColorBorderStyle" TargetType="Border">
         <Setter Property="Padding" Value="0" />
         <Setter Property="HeightRequest" Value="20" />

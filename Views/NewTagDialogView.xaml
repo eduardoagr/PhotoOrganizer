@@ -5,25 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="http://schemas.photoorganizer.com"
     x:Name="RootPopup"
-    Padding="20"
     x:DataType="app:NewTagDialogViewModel"
-    AutoSizeMode="Both"
     Closed="RootPopup_Closed"
-    ShowHeader="False"
-    StaysOpen="True">
-
-    <app:SfPopup.PopupStyle>
-        <app:PopupStyle MessageBackground="{AppThemeBinding Light=#FFFFFF, Dark=#292D43}" />
-    </app:SfPopup.PopupStyle>
+    Style="{StaticResource KeyedPopupStyle}">
 
     <app:SfPopup.ContentTemplate>
         <DataTemplate x:DataType="app:NewTagDialogViewModel">
             <Grid Padding="10" RowDefinitions="Auto,Auto,Auto">
 
-                <app:SfTextInputLayout
-                    Hint="Name"
-                    Stroke="#393838"
-                    Style="{StaticResource InputStyle}">
+                <app:SfTextInputLayout Hint="Name" Style="{StaticResource InputStyle}">
 
                     <Entry Text="{Binding newTag.Name}" />
 

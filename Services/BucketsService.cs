@@ -1,9 +1,27 @@
-﻿using Supabase;
+﻿namespace PhotoOrganizer.Services;
 
-namespace PhotoOrganizer.Services;
+public class BucketsService(Client _client, HttpClient httpClient) : IBucketsService {
 
-public class BucketsService(Client _client) : IBucketsService {
     private const string BucketName = "Images";
+
+    public async Task<string?> DownloadAsync(string fileUrl) {
+
+        try {
+            var fileName = Path.GetFileName(new Uri(fileUrl).LocalPath);
+            var localPath = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+            await using var stream = await httpClient.GetStreamAsync(fileUrl);
+            await using var file = File.Create(localPath);
+
+            await stream.CopyToAsync(file);
+
+            return localPath;
+
+        } catch {
+
+            return null;
+        }
+    }
 
     public async Task<string> UploadFileAsync(string localFilePath, string fileName) {
 

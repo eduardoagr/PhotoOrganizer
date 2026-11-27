@@ -10,54 +10,68 @@ public partial class GalleryViewModel(
 
     public ObservableCollection<Photo> Photos { get; } = [];
 
+    public ObservableCollection<PhotoGroup> PhotoGroups { get; } = [];
+
+
     [RelayCommand]
-    void FilterPopupOpen() {
+    private async Task InitializeAsync() {
+        var photoDtos = await dataService.GetPhotosAsync();
+
+        var photos = new List<Photo>();
+
+        foreach(var dto in photoDtos) {
+            photos.Add(new Photo {
+                Id = (int)dto.Id,
+                TagId = dto.TagId,
+                Title = dto.Title ?? string.Empty,
+                Description = dto.Description ?? string.Empty,
+                LocationDescription = dto.LocationDescription ?? string.Empty,
+                FilePath = dto.FilePath,
+                CreatedAt = dto.CreatedAt
+            });
+        }
+
+        // Sort newest first
+        photos.Sort((a, b) => Nullable.Compare(b.CreatedAt, a.CreatedAt));
+
+        PhotoGroups.Clear();
+
+        DateTime? currentMonth = null;
+        PhotoGroup? currentGroup = null;
+
+        foreach(var photo in photos) {
+            DateTime? photoDate = photo.CreatedAt?.ToLocalTime();
+
+            DateTime? monthKey = photoDate.HasValue
+                ? new DateTime(photoDate.Value.Year, photoDate.Value.Month, 1)
+                : null;
+
+            if(currentGroup == null || currentMonth != monthKey) {
+                string title = photoDate?.ToString("MMMM yyyy") ?? "Unknown date";
+
+                currentGroup = new PhotoGroup(title);
+                PhotoGroups.Add(currentGroup);
+
+                currentMonth = monthKey;
+            }
+
+            currentGroup.Add(photo);
+        }
+    }
+
+
+    [RelayCommand]
+    private void FilterPopupOpen() {
         views.IsOpen = true;
     }
 
-    //    [RelayCommand]
-    //    private async Task FilterByTagAsync(Tag tag) {
-
-    //        foreach(var t in Tags)
-    //            t.isSelected = false;
-
-    //        tag.isSelected = true;
-
-    //        var photos = tag.Name == "All"
-    //            ? await dataService.GetAllPhotosAsync()
-    //            : await dataService.GetPhotosByTagAsync(tag.Id);
-
-    //        Photos.Clear();
-
-    //        foreach(var photo in photos)
-    //            Photos.Add(photo.ToModel());
-    //    }
-
-    //    private void SortTags() {
-
-    //        var sortedTags = Tags
-    //            .OrderBy(t => t.Name == "All" ? 0 : 1)
-    //            .ThenBy(t => t.Name)
-    //            .ToList();
-
-    //        Tags.Clear();
-
-    //        foreach(var tag in sortedTags)
-    //            Tags.Add(tag);
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task OpenPhotoDetailAsync(string photoPath) => new PhotoBrowsers.PhotoBrowser {
-    //        Photos =
-    //            [
-    //        new() {
-    //            URL = photoPath
-    //        }
-    //    ]
-    //    }.Show();
-    //}
+    [RelayCommand]
+    private async Task OpenPhotoDetailAsync(string photoPath) => new PhotoBrowsers.PhotoBrowser {
+        Photos =
+        [
+            new() {
+                URL = photoPath
+            }
+        ]
+    }.Show();
 }
-
-
-
-

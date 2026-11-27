@@ -13,6 +13,7 @@ global using PhotoOrganizer.Views;
 
 global using Shiny.Maui.Controls.Camera.Media;
 
+global using Supabase;
 global using Supabase.Postgrest.Models;
 
 global using Syncfusion.Maui.Popup;

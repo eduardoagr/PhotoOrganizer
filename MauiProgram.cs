@@ -39,7 +39,7 @@ public static class MauiProgram {
         builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
         builder.Services.AddSingleton<ICreateExcel, CreateExcel>();
         builder.Services.AddSingleton<IShellService, ShellService>();
-        builder.Services.AddSingleton<IBucketsService, BucketsService>();
+        builder.Services.AddHttpClient<IBucketsService, BucketsService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<ITagService, TagService>();
         builder.Services.AddSingleton<ITagStore, TagStore>();

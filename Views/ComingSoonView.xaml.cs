@@ -7,6 +7,7 @@ public partial class ComingSoonView : ContentPage {
 
     private void CommingSoonOkBton_Clicked(object sender, EventArgs e) {
 
-        Application.Current.Quit();
+        Application.Current?.Quit();
+
     }
 }

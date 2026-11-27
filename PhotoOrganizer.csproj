@@ -1,16 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net10.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
-
-		<!-- Note for MacCatalyst:
-		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+		<TargetFrameworks>net11.0-android37.0</TargetFrameworks>
+		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net11.0-ios27.2;net11.0-maccatalyst27.2</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net11.0-windows10.0.19041.0</TargetFrameworks>
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>PhotoOrganizer</RootNamespace>
@@ -19,12 +12,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Enable XAML source generation for faster build times and improved performance.
-		     This generates C# code from XAML at compile time instead of runtime inflation.
-		     To disable, remove this line.
-		     For individual files, you can override by setting Inflator metadata:
-		       <MauiXaml Update="MyPage.xaml" Inflator="Default" /> (reverts to defaults: Runtime for Debug, XamlC for Release)
-		       <MauiXaml Update="MyPage.xaml" Inflator="Runtime" /> (force runtime inflation) -->
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<!-- Display name -->
@@ -37,108 +24,133 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
 
+		<!-- Minimum supported OS versions -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-		<!-- 🔥 FIX PARA TODOS LOS WARNINGS NU1608 -->
+		<!-- Package version conflict checks -->
 		<DisablePackageVersionConflictChecks>true</DisablePackageVersionConflictChecks>
-		
+
 	</PropertyGroup>
 
+	<!-- Resources -->
 	<ItemGroup>
-		<!-- App Icon -->
+
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
-		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
-		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-		
-		<!-- Custom Fonts -->
+
 		<MauiFont Include="Resources\Fonts\*" />
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+
 	</ItemGroup>
 
+	<!-- Syncfusion font exclusions -->
 	<ItemGroup>
-	  <MauiFont Remove="C:\Users\egome\.nuget\packages\syncfusion.maui.core\35.1.40\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
-	  <MauiFont Remove="C:\Users\egome\.nuget\packages\syncfusion.maui.core\35.1.41\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
+		<MauiFont Remove="C:\Users\egome\.nuget\packages\syncfusion.maui.core\35.1.40\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
+		<MauiFont Remove="C:\Users\egome\.nuget\packages\syncfusion.maui.core\35.1.41\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
 	</ItemGroup>
 
+	<!-- NuGet packages -->
 	<ItemGroup>
+
 		<PackageReference Include="ClosedXML" Version="0.105.1" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="16.0.0" />
+
+		<PackageReference Include="CommunityToolkit.Maui" Version="17.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="11.0.0" />
+
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
+
 		<PackageReference Include="PhotoBrowser.Maui" Version="1.2.4" />
-		<PackageReference Include="Shiny.Maui.Controls" Version="2.5.0" />
-		<PackageReference Include="Shiny.Maui.Controls.Camera" Version="2.5.0" />
+
+		<PackageReference Include="Shiny.Maui.Controls" Version="3.0.0" />
+		<PackageReference Include="Shiny.Maui.Controls.Camera" Version="3.0.0" />
+
 		<PackageReference Include="Supabase" Version="8.14.0" />
+
 		<PackageReference Include="Syncfusion.Licensing" Version="35.2.13" />
 		<PackageReference Include="Syncfusion.Maui.Core" Version="35.2.13" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="35.2.13" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="35.2.13" />
+
 	</ItemGroup>
 
+	<!-- Code-behind dependencies -->
 	<ItemGroup>
-	  <Compile Update="Views\ComingSoonView.xaml.cs">
-	    <DependentUpon>ComingSoonView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\CreatePhotoView.xaml.cs">
-	    <DependentUpon>CreatePhotoView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\GalleryView.xaml.cs">
-	    <DependentUpon>GalleryView.xaml</DependentUpon>
-	  </Compile>
+
+		<Compile Update="Views\ComingSoonView.xaml.cs">
+			<DependentUpon>ComingSoonView.xaml</DependentUpon>
+		</Compile>
+
+		<Compile Update="Views\CreatePhotoView.xaml.cs">
+			<DependentUpon>CreatePhotoView.xaml</DependentUpon>
+		</Compile>
+
+		<Compile Update="Views\GalleryView.xaml.cs">
+			<DependentUpon>GalleryView.xaml</DependentUpon>
+		</Compile>
+
 	</ItemGroup>
 
+	<!-- XAML files -->
 	<ItemGroup>
-	  <MauiXaml Update="Controls\CardView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\IconButton.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\PageHeaderCard.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\PhotoCaptureCard.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\TagChip.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ComingSoonView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\FilterPopupView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\GalleryView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\LoginDialogView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NewTagDialogView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\UserAccountDialog.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+
+		<MauiXaml Update="Controls\CardView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Controls\IconButton.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Controls\PageHeaderCard.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Controls\PhotoCaptureCard.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Controls\TagChip.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\ComingSoonView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\FilterPopupView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\GalleryView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\LoginDialogView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\NewTagDialogView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
+		<MauiXaml Update="Views\UserAccountDialog.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="10.0.110" />
-	</ItemGroup>
-
-</Project>
+	</Project>
